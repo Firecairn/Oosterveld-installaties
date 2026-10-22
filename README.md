@@ -2,5 +2,5 @@
 
 Website van oosterveldinstallaties.nl (statische HTML/CSS/JS).
 
-- `aanvraag.php`: ontvangt het offerteformulier en mailt het naar de klant; optioneel doorsturen naar het offertesysteem. Vul bovenin TO_EMAIL, FROM_EMAIL, WEBHOOK_URL en WEBHOOK_SECRET in.
-- In `form.js`: zet `CFG.endpoint` op `/aanvraag.php`.
+- `api/aanvraag.js`: Vercel-functie die het offerteformulier per e-mail (Resend) verstuurt en optioneel doorstuurt naar het offertesysteem. Zie de variabelen bovenin het bestand.
+- `api/aanvraag.js`: Vercel-functie die het offerteformulier per e-mail (Resend) verstuurt en optioneel doorstuurt naar het offertesysteem. Zie de variabelen bovenin het bestand.

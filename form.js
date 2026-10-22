@@ -1,4 +1,4 @@
-var CFG={endpoint:""}; /* Adres dat de aanvraag ontvangt en mailt, bijv. "/aanvraag.php". Leeg = voorbeeldpagina. */
+var CFG={endpoint:"/api/aanvraag"}; /* Adres dat de aanvraag ontvangt en mailt, bijv. "/aanvraag.php". Leeg = voorbeeldpagina. */
 var P={"Complete badkamer":"b","Toilet":"t","Elektrawerk":"e","Zonnepanelen":"z","Accu installatie":"a","Loodgieterwerk":"l"};
 var BR=["Heb ik al","Levering door Oosterveld","Nog onbekend"];
 var F=[
