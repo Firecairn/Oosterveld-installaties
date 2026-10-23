@@ -223,8 +223,8 @@ footer .wrap{display:block}
 footer .fgrid img{width:auto;max-width:100%}
 
 /* ===== v2: merk, footer, foto's, voor/na, video, reviews ===== */
-.logo img{height:44px}
-@media(max-width:520px){.logo img{height:36px}}
+.logo img{height:52px}
+@media(max-width:520px){.logo img{height:44px}}
 footer{background:#000}
 .mbar{background:#000}
 .fbot{border-top-color:rgba(255,255,255,.16)}
