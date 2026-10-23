@@ -52,7 +52,7 @@ module.exports = async (req, res) => {
       method: 'POST',
       headers: { Authorization: 'Bearer ' + process.env.RESEND_API_KEY, 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        from: 'Oosterveld Installaties website <' + process.env.FROM_EMAIL + '>',
+        from: 'Oosterveld website <' + process.env.FROM_EMAIL + '>',
         to: [process.env.TO_EMAIL], reply_to: email, subject: onderwerp,
         text: `${tekst}\n\n--\nOntvangen via oosterveldinstallaties.nl op ${tijd}\n`,
       }),
