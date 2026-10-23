@@ -1,5 +1,5 @@
 
-:root{--or:#ED9121;--or-dk:#B5690A;--ink:#1D1D1B;--bg:#fff;--soft:#f6f4f0;--muted:#5d5d58;--line:#e6e2da;color-scheme:light;
+:root{--or:#ED9121;--or-dk:#9A5506;--or-lt:#FDE7CC;--ink:#1F2328;--bg:#fff;--soft:#FEF5EA;--muted:#5d5d58;--line:#F0E2CF;color-scheme:light;
 box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 *{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:calc(env(safe-area-inset-top,0px) + 76px)}
 body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.65 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
@@ -7,7 +7,7 @@ body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.65 system-ui,-ap
 header{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;background:rgba(255,255,255,.94);backdrop-filter:blur(8px);transition:box-shadow .25s}
 header.s{box-shadow:0 2px 18px rgba(0,0,0,.09)}
 header .wrap{display:flex;align-items:center;justify-content:space-between;height:70px}
-.logo img{height:34px;width:auto;display:block}
+.logo img{height:40px;width:auto;display:block}
 nav{display:flex;gap:26px;align-items:center}
 nav a{color:var(--ink);text-decoration:none;font-weight:600;font-size:.95rem;position:relative}
 nav a:not(.btn):after{content:"";position:absolute;left:0;bottom:-4px;height:2px;width:0;background:var(--or);transition:width .25s}
@@ -116,7 +116,7 @@ footer .wrap{display:flex;justify-content:space-between;align-items:center;flex-
 [hidden]{display:none!important}
 img{max-width:100%;height:auto}
 .skip{position:absolute;left:-999px;top:8px;background:var(--ink);color:#fff;padding:10px 16px;border-radius:8px;z-index:100}.skip:focus{left:8px}
-.logo img{height:34px;width:auto}
+.logo img{height:40px;width:auto}
 header .wrap{gap:16px}
 .dd{position:relative}
 .ddb{background:none;border:0;font:inherit;font-weight:600;font-size:.95rem;color:var(--ink);cursor:pointer;padding:0}
@@ -198,9 +198,33 @@ footer .fgrid img{height:30px;margin-bottom:12px}
 .stepnum{font-weight:800}
 @media(min-width:981px){nav a,.ddb,nav .btn{white-space:nowrap}}
 @media(min-width:981px) and (max-width:1200px){nav{gap:14px}nav a,.ddb{font-size:.88rem}nav .btn{padding:10px 14px}}
+
+/* ===== huisstijl Oosterveld: oranje als hoofdkleur ===== */
+header{border-bottom:4px solid var(--or)}
+.hero:after{height:8px}
+.ico{background:var(--or)}.ico svg{stroke:var(--ink)}
+.card:hover{border-color:var(--or)}
+.ctaband{background:var(--or);color:var(--ink)}
+.ctaband:before{background:radial-gradient(circle,rgba(255,255,255,.35),transparent 70%)}
+.ctaband h2{color:var(--ink)}.ctaband p{color:var(--ink)}
+.ctaband .btn{background:var(--ink);border-color:var(--ink);color:#fff}
+.ctaband .btn:hover{box-shadow:0 8px 20px rgba(31,35,40,.3)}
+.ctaband .btn.alt{background:transparent;color:var(--ink);border-color:var(--ink)}.ctaband .btn.alt:hover{background:rgba(255,255,255,.25)}
+footer{background:var(--or);color:var(--ink)}
+footer a{color:var(--ink)}footer a:hover{color:var(--ink);text-decoration:underline}
+footer h4{color:var(--ink)}
+footer .fgrid img{height:46px;margin-bottom:14px}
+.fbot{border-top-color:rgba(31,35,40,.22)}
+@media(max-width:760px){
+.mbar{background:var(--or)}
+.mbar a{color:var(--ink);border-color:rgba(31,35,40,.3)}
+.mbar a.p{background:var(--ink);border-color:var(--ink);color:#fff}}
+footer .wrap{display:block}
+footer .fgrid img{width:auto;max-width:100%}
+
 /* ===== v2: merk, footer, foto's, voor/na, video, reviews ===== */
-.logo img{height:46px}
-@media(max-width:520px){.logo img{height:38px}}
+.logo img{height:44px}
+@media(max-width:520px){.logo img{height:36px}}
 footer{background:#000}
 .mbar{background:#000}
 .fbot{border-top-color:rgba(255,255,255,.16)}
@@ -271,3 +295,11 @@ footer{background:#000}
 .rvs .sl-dots{display:none}
 @media(prefers-reduced-motion:reduce){.rvs .rs,.sl-prog i,.mt img{transition:none}}
 .rbadges u{white-space:nowrap}
+
+/* footer terug naar zwart (na huisstijl-blok) */
+footer{background:#000;color:#bdbbb4}
+footer a{color:#bdbbb4}footer a:hover{color:var(--or);text-decoration:none}
+footer h4{color:#fff}
+footer .fgrid img{height:46px;margin-bottom:14px}
+.fbot{border-top-color:rgba(255,255,255,.16)}
+@media(max-width:760px){.mbar{background:#000}.mbar a{color:#fff;border-color:rgba(255,255,255,.25)}.mbar a.p{background:var(--or);border-color:var(--or);color:var(--ink)}}
