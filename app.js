@@ -62,3 +62,13 @@ document.querySelectorAll("[data-vd]").forEach(function(v){var f=v.parentNode,bt
 var fc=document.querySelector(".fchips");
 if(fc){fc.addEventListener("click",function(e){var b=e.target.closest("button");if(!b)return;var f=b.dataset.f;[].forEach.call(fc.children,function(x){x.classList.toggle("on",x===b)});document.querySelectorAll(".rgrid .rs").forEach(function(r){r.hidden=!(f=="alle"||(r.dataset.t||"").indexOf(f)>=0)})})}
 })();
+/* wisselende woorden in de kop */
+(function(){document.querySelectorAll("[data-rotg]").forEach(function(g){var rs=[].slice.call(g.querySelectorAll(".rot"));if(!rs.length)return;
+ if(matchMedia("(prefers-reduced-motion: reduce)").matches){rs.forEach(function(r){r.classList.add("static")});return}
+ var n=rs[0].querySelector(".rr").children.length,i=0;
+ rs.forEach(function(r){var l=r.querySelector(".rr");l.appendChild(l.children[0].cloneNode(true))});
+ function w(r,k){if(r.classList.contains("rw")){var s=r.querySelector(".rr").children[k];r.style.width=s.scrollWidth+8+"px"}}
+ function fit(){rs.forEach(function(r){w(r,i%n)})}
+ fit();addEventListener("resize",fit);if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fit);
+ setInterval(function(){i++;rs.forEach(function(r){var l=r.querySelector(".rr"),h=l.children[0].getBoundingClientRect().height;l.style.transition="transform .7s cubic-bezier(.65,0,.25,1)";l.style.transform="translateY(-"+i*h+"px)";w(r,i)});
+  if(i==n){setTimeout(function(){rs.forEach(function(r){var l=r.querySelector(".rr");l.style.transition="none";l.style.transform="translateY(0)"});i=0},760)}},2800)})})();

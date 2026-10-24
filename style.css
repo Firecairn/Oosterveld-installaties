@@ -303,3 +303,20 @@ footer h4{color:#fff}
 footer .fgrid img{height:46px;margin-bottom:14px}
 .fbot{border-top-color:rgba(255,255,255,.16)}
 @media(max-width:760px){.mbar{background:#000}.mbar a{color:#fff;border-color:rgba(255,255,255,.25)}.mbar a.p{background:var(--or);border-color:var(--or);color:var(--ink)}}
+/* ===== wisselende woorden in de kop ===== */
+.rot{display:block;position:relative;overflow:hidden;height:1.18em;line-height:1.18;color:var(--or);margin-top:.04em}
+.rot .rr{display:block;transition:transform .7s cubic-bezier(.65,0,.25,1);will-change:transform}
+.rot .rr span{display:block;height:1.18em;white-space:nowrap}
+.rot.rw{display:inline-block;vertical-align:top;color:inherit;margin-top:0;transition:width .7s cubic-bezier(.65,0,.25,1)}
+.rot.static{height:auto;overflow:visible;width:auto!important}
+.rot.static .rr{transform:none!important}
+.rot.static .rr span{display:inline;height:auto;white-space:normal}
+.rot.static.rw .rr span+span,.rot.static .rr span:last-child:not(:first-child){display:none}
+.rot.static:not(.rw) .rr span+span:before{content:", "}
+.rot.static:not(.rw) .rr span:last-child{display:inline}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.rg{display:block}
+.rot.rw .rr span{width:max-content}
+.hero h1 .rot.rw{color:#fff}
+@media(max-width:520px){.rot:not(.rw){font-size:.84em}}
+.places a{text-decoration:none;color:inherit}.places a:hover span{border-color:var(--or);color:var(--ink)}
