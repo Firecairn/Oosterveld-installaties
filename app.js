@@ -44,7 +44,7 @@ if(rv){var dx=0,x0=0,s0=0,dn=false;
  tr.addEventListener("pointermove",function(e){if(!dn)return;dx=e.clientX-x0;tr.scrollLeft=s0-dx});
  function up(){if(!dn)return;dn=false;tr.classList.remove("drag");user=true;stop();setPP();go(Math.round(tr.scrollLeft/st()))}
  tr.addEventListener("pointerup",up);tr.addEventListener("pointercancel",up);tr.addEventListener("dragstart",function(e){e.preventDefault()})}
-var rz;addEventListener("resize",function(){clearTimeout(rz);rz=setTimeout(build,120)});build()}
+var rz;addEventListener("resize",function(){clearTimeout(rz);rz=setTimeout(build,120)});sl._rb=build;build()}
 document.querySelectorAll(".sl").forEach(slider);
 /* voor/na */
 document.querySelectorAll("[data-ba]").forEach(function(b){var stg=b.querySelector(".ba-stage"),r=b.querySelector(".ba-r"),v=b.querySelector(".ba-v");
@@ -71,4 +71,25 @@ if(fc){fc.addEventListener("click",function(e){var b=e.target.closest("button");
  function fit(){rs.forEach(function(r){w(r,i%n)})}
  fit();addEventListener("resize",fit);if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fit);
  setInterval(function(){i++;rs.forEach(function(r){var l=r.querySelector(".rr"),h=l.children[0].getBoundingClientRect().height;l.style.transition="transform .7s cubic-bezier(.65,0,.25,1)";l.style.transform="translateY(-"+i*h+"px)";w(r,i)});
-  if(i==n){setTimeout(function(){rs.forEach(function(r){var l=r.querySelector(".rr");l.style.transition="none";l.style.transform="translateY(0)"});i=0},760)}},2800)})})();
+  if(i==n){setTimeout(function(){rs.forEach(function(r){var l=r.querySelector(".rr");l.style.transition="none";l.style.transform="translateY(0)"});i=0},760)}},2800)})
+/* Google-reviews automatisch bijwerken (via /api/reviews; bij een fout blijven de vaste reviews staan) */
+var tracks=document.querySelectorAll(".rvs .sl-track,.rgrid");
+if(tracks.length&&location.protocol.indexOf("http")==0&&window.fetch){
+ var norm=function(s){return(s||"").toLowerCase().replace(/[^a-z0-9]+/g,"").slice(0,50)};
+ fetch("/api/reviews",{headers:{Accept:"application/json"}}).then(function(r){return r.ok?r.json():null}).then(function(d){
+  if(!d||!d.ok)return;
+  if(d.rating){var rt=(Math.round(d.rating*10)/10).toFixed(1).replace(".",",");document.querySelectorAll('.rbadges a[href*="maps.google"] strong').forEach(function(s){s.textContent=rt})}
+  var have={};document.querySelectorAll(".rs blockquote").forEach(function(b){have[norm(b.textContent)]=1});
+  var nieuw=(d.reviews||[]).filter(function(v){var k=norm(v.tekst);if(!k||have[k])return false;have[k]=1;return true});
+  if(!nieuw.length)return;
+  var mk=function(v){var f=document.createElement("figure");f.className="rs";f.setAttribute("data-t","algemeen alle");f.setAttribute("role","group");f.setAttribute("aria-roledescription","review");
+   var n=Math.max(1,Math.min(5,v.sterren|0)),st=document.createElement("div");st.className="st";st.setAttribute("role","img");st.setAttribute("aria-label",n+" van 5 sterren");st.textContent="★★★★★".slice(0,n)+"☆☆☆☆☆".slice(0,5-n);f.appendChild(st);
+   var q=document.createElement("blockquote");q.textContent="“"+v.tekst+"”";f.appendChild(q);
+   var c=document.createElement("figcaption"),av=document.createElement("span");av.className="av g";av.setAttribute("aria-hidden","true");av.textContent=(v.naam||"G").charAt(0).toUpperCase();
+   var w=document.createElement("span"),b=document.createElement("b");b.textContent=v.naam||"Google-gebruiker";var sm=document.createElement("small"),dt="";
+   if(v.datum){try{dt=" · "+new Date(v.datum).toLocaleDateString("nl-NL",{month:"long",year:"numeric"})}catch(e){}}
+   if(v.url){var l=document.createElement("a");l.href=v.url;l.target="_blank";l.rel="noopener nofollow";l.textContent="Google review";l.style.color="inherit";sm.appendChild(l);sm.appendChild(document.createTextNode(dt))}else sm.textContent="Google review"+dt;
+   w.appendChild(b);w.appendChild(sm);c.appendChild(av);c.appendChild(w);f.appendChild(c);return f};
+  tracks.forEach(function(t){nieuw.slice().reverse().forEach(function(v){t.insertBefore(mk(v),t.firstChild)});var s=t.closest(".sl");if(s&&s._rb){t.scrollLeft=0;s._rb()}});
+ }).catch(function(){})}
+})();
