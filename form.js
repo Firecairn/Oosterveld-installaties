@@ -43,11 +43,11 @@ var F=[
 {k:"Welk loodgieterwerk",s:"Loodgieterwerk",t:"m",o:["Keuken aansluiten (water en afvoer)","Waterleiding verleggen of aanleggen","Afvoer verleggen of aanleggen","Sanitair aansluiten","Anders, zie opmerkingen"],f:"l"},
 {k:"Keuken",t:"r",o:["Nieuwe keuken wordt geplaatst","Keuken blijft, alleen aansluiten","Weet ik niet"],f:"l",w:"Loodgieterwerk:Keuken"},
 {k:"Opmerkingen of extra wensen",s:"Opmerkingen",t:"a"},
-{k:"Woonplaats",t:"x"},{k:"Naam",t:"x"},{k:"Telefoonnummer",s:"Telefoon",t:"x"},{k:"E-mailadres (voor onze reactie, mag leeg)",s:"E-mail",t:"x"}
+{k:"Woonplaats",t:"x"},{k:"Naam",t:"x"},{k:"Telefoonnummer",s:"Telefoon",t:"x"},{k:"E-mailadres",s:"E-mail",t:"x"}
 ];
 var C=document.getElementById("fields"),SM=document.getElementById("sum"),MG=document.getElementById("msg");
 F.forEach(function(f,i){
-var h='<div class="fg" data-f="'+(f.f||"")+'" data-w="'+(f.w||"")+'" data-k="'+(f.s||f.k)+'" data-t="'+f.t+'"><div class="fl">'+f.k+'</div>';
+var h='<div class="fg" data-f="'+(f.f||"")+'" data-w="'+(f.w||"")+'" data-k="'+(f.s||f.k)+'" data-t="'+f.t+'"><div class="fl">'+f.k+(["Project","Woonplaats","Naam","Telefoonnummer","E-mailadres"].indexOf(f.k)>=0?'<span aria-hidden="true" style="color:var(--or)"> *</span>':'')+'</div>';
 if(f.t=="r"||f.t=="m"){f.o.forEach(function(o){h+='<label class="chip"><input type="'+(f.t=="r"?"radio":"checkbox")+'" name="f'+i+'" value="'+o+'"><span>'+o+'</span></label>'})}
 else if(f.t=="d"){h+='<div class="dim"><input type="number" step="0.1" min="0" inputmode="decimal" aria-label="Lengte" placeholder="Lengte"><span>×</span><input type="number" step="0.1" min="0" inputmode="decimal" aria-label="Breedte" placeholder="Breedte"></div>'}
 else if(f.t=="n"){h+='<div class="dim"><input type="number" min="0" step="1" inputmode="numeric" aria-label="'+f.k+'" placeholder="Aantal"></div>'}
@@ -71,8 +71,9 @@ return L.length>1?L.join("\n"):"Nog niets ingevuld."}
 function upd(){SM.textContent=build()}
 C.addEventListener("input",upd);C.addEventListener("change",upd);upd();
 (function(){try{var q=new URLSearchParams(location.search).get("project"),M={badkamer:"Complete badkamer",toilet:"Toilet",elektra:"Elektrawerk",zonnepanelen:"Zonnepanelen",accu:"Accu installatie",loodgieter:"Loodgieterwerk"};if(q&&M[q]){var el=C.querySelector('[name=f0][value="'+M[q]+'"]');if(el){el.checked=true;upd()}}}catch(e){}})();
-function ok(){var t=build(),need=[];["Project","Woonplaats","Naam","Telefoon"].forEach(function(k){if(t.indexOf(k+": ")<0)need.push(k)});
-if(need.length){MG.textContent="Vul nog in: "+need.join(", ")+".";return null}MG.textContent="";return t}
+function ok(){var t=build(),need=[];["Project","Woonplaats","Naam","Telefoon","E-mail"].forEach(function(k){if(t.indexOf(k+": ")<0)need.push(k)});
+if(need.length){MG.textContent="Vul nog in: "+need.join(", ")+".";return null}
+var em=(t.match(/E-mail: (.*)/)||[])[1]||"";if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){MG.textContent="Vul een geldig e-mailadres in.";return null}MG.textContent="";return t}
 function data(){var o={};C.querySelectorAll(".fg").forEach(function(g){if(g.hidden)return;var v=val(g);if(v)o[g.dataset.k]=v});return o}
 document.getElementById("send").onclick=function(){var t=ok();if(!t)return;
 if(!CFG.endpoint){MG.textContent="Automatisch mailen is in deze voorbeeldpagina nog niet gekoppeld. Gebruik WhatsApp of kopieer de tekst.";return}

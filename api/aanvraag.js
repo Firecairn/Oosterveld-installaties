@@ -38,9 +38,10 @@ module.exports = async (req, res) => {
       if (typeof v === 'string' && Object.keys(velden).length < 60) velden[clean(k, 80)] = clean(v, 1000);
     }
   }
-  for (const k of ['Project', 'Woonplaats', 'Naam', 'Telefoon']) {
+  for (const k of ['Project', 'Woonplaats', 'Naam', 'Telefoon', 'E-mail']) {
     if (!velden[k]) return res.status(422).json({ ok: false, fout: 'Ontbrekend veld: ' + k });
   }
+  if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(velden['E-mail'])) return res.status(422).json({ ok: false, fout: 'Ongeldig e-mailadres' });
   const tekst = clean(d.tekst, 6000);
   const email = /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(velden['E-mail'] || '') ? velden['E-mail'] : undefined;
   const onderwerp = `Nieuwe offerte-aanvraag: ${velden.Project} – ${velden.Woonplaats} – ${velden.Naam}`.replace(/\s+/g, ' ');
