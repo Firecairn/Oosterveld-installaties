@@ -48,7 +48,7 @@ function bevestiging({ naam, tekst }) {
 <table role="presentation" cellpadding="0" cellspacing="0"><tr><td align="center" style="background:#1F2328;border-radius:10px"><a href="tel:+31616623602" style="display:inline-block;padding:14px 26px;font:600 15px/1 ${F};color:#FFFFFF;text-decoration:none">Bel ${TELEFOON}</a></td></tr></table>
 </td></tr>
 <tr><td style="background:#1F2328;border-radius:0 0 16px 16px;padding:22px 36px;font:400 13px/1.6 ${F};color:#AEB4BC">
-<b style="color:#FFFFFF;font-weight:600">Oosterveld Installaties</b><br>Dingspellaan 19 · 7824 GB Emmen<br>${TELEFOON} · <a href="https://${WEB}" style="color:#ED9121;text-decoration:none">${WEB}</a>
+<b style="color:#FFFFFF;font-weight:600">Oosterveld Installaties</b><br>Dingspellaan 19 · 7824 GB Emmen · KvK 92373739<br>${TELEFOON} · <a href="https://${WEB}" style="color:#ED9121;text-decoration:none">${WEB}</a>
 </td></tr>
 <tr><td style="padding:16px 12px 0 12px;font:400 12px/1.5 ${F};color:#8A8A85;text-align:center">U ontvangt deze e-mail omdat u een aanvraag heeft gedaan via ${WEB}.</td></tr>
 </table></td></tr></table></body></html>`;
@@ -70,7 +70,7 @@ ${String(tekst || '')}
 
 Met vriendelijke groet,
 Oosterveld Installaties
-Dingspellaan 19 · 7824 GB Emmen
+Dingspellaan 19 · 7824 GB Emmen · KvK 92373739
 ${TELEFOON} · ${WEB}
 `;
   return { html, text };
