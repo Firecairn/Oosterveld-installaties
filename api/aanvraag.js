@@ -7,7 +7,7 @@
 //   WEBHOOK_URL      (optioneel)  endpoint van het offertesysteem
 //   WEBHOOK_SECRET   (optioneel)  gedeeld geheim, HMAC-SHA256 in header X-Signature
 const crypto = require('crypto');
-const TELEFOON = '06 16 62 36 02';
+const { bevestiging } = require('./_bevestiging');
 const hits = new Map(); // eenvoudige rate limit per instantie
 const clean = (v, max = 3000) => (typeof v === 'string' ? v.replace(/[^\P{C}\n]/gu, '').trim().slice(0, max) : '');
 
@@ -80,31 +80,13 @@ module.exports = async (req, res) => {
 
   // Bevestiging aan de klant. Mislukt dit, dan blijft de aanvraag gewoon geldig.
   try {
-    const naam = velden.Naam.replace(/\s+/g, ' ').trim();
+    const { html, text } = bevestiging({ naam: velden.Naam, tekst });
     const r = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: { Authorization: 'Bearer ' + process.env.RESEND_API_KEY, 'Content-Type': 'application/json' },
       body: JSON.stringify({
         from: 'Oosterveld Installaties <' + process.env.FROM_EMAIL + '>',
-        to: [email], reply_to: process.env.TO_EMAIL, subject: 'Wij hebben uw aanvraag ontvangen',
-        text: `Beste ${naam},
-
-Bedankt voor uw aanvraag via oosterveldinstallaties.nl. Wij hebben uw aanvraag in goede orde ontvangen.
-
-Wat gebeurt er nu?
-Wij bekijken uw aanvraag en nemen zo snel mogelijk contact met u op. Dat kan met een richtprijs, of met een voorstel voor een afspraak om de situatie ter plaatse te bekijken.
-
-Wilt u in de tussentijd iets aanvullen of heeft u een vraag? Reageer dan gewoon op deze e-mail of bel ons op ${TELEFOON}.
-
-Dit hebt u aan ons doorgegeven:
---------------------------------
-${tekst}
---------------------------------
-
-Met vriendelijke groet,
-Oosterveld Installaties
-${TELEFOON} · oosterveldinstallaties.nl
-`,
+        to: [email], reply_to: process.env.TO_EMAIL, subject: 'Wij hebben uw aanvraag ontvangen', html, text,
       }),
     });
     if (!r.ok) console.error('Bevestigingsmail mislukt', r.status, await r.text());
