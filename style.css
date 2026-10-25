@@ -68,7 +68,7 @@ footer .wrap{display:flex;justify-content:space-between;align-items:center;flex-
 .chip span{display:inline-block;padding:9px 15px;border:2px solid var(--line);border-radius:999px;font-size:.93rem;font-weight:600;transition:.2s}
 .chip:hover span{border-color:var(--or)}.chip input:checked+span{background:var(--or);border-color:var(--or)}
 .chip input:focus-visible+span{outline:2px solid var(--ink);outline-offset:2px}
-.qf input[type=text],.qf input[type=tel],.qf input[type=number],.qf textarea{background:var(--soft);border:2px solid transparent;margin-bottom:0}
+.qf input[type=text],.qf input[type=tel],.qf input[type=email],.qf input[type=number],.qf textarea{background:var(--soft);border:2px solid transparent;margin-bottom:0}
 .qf input:focus,.qf textarea:focus{border-color:var(--or)}
 .dim{display:flex;gap:10px;align-items:center;max-width:320px}.dim span{font-weight:700}
 .sum{background:var(--soft);border-radius:10px;padding:16px 18px;margin:8px 0 18px}
