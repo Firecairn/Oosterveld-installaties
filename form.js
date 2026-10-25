@@ -76,7 +76,7 @@ if(need.length){MG.textContent="Vul nog in: "+need.join(", ")+".";return null}
 var em=(t.match(/E-mail: (.*)/)||[])[1]||"";if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){MG.textContent="Vul een geldig e-mailadres in.";return null}MG.textContent="";return t}
 function data(){var o={};C.querySelectorAll(".fg").forEach(function(g){if(g.hidden)return;var v=val(g);if(v)o[g.dataset.k]=v});return o}
 document.getElementById("send").onclick=function(){var t=ok();if(!t)return;
-if(!CFG.endpoint){MG.textContent="Automatisch mailen is in deze voorbeeldpagina nog niet gekoppeld. Gebruik WhatsApp of kopieer de tekst.";return}
+if(!CFG.endpoint){MG.textContent="Automatisch mailen is in deze voorbeeldpagina nog niet gekoppeld. Gebruik voor nu WhatsApp.";return}
 var b=this;b.disabled=true;MG.textContent="Bezig met versturen…";
 fetch(CFG.endpoint,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({tekst:t,velden:data(),website:document.getElementById("hp").value,pagina:location.href})})
 .then(function(r){return r.json().then(function(j){if(!r.ok||!j.ok)throw 0;return j})})
@@ -84,4 +84,4 @@ fetch(CFG.endpoint,{method:"POST",headers:{"Content-Type":"application/json"},bo
 .catch(function(){MG.textContent="Versturen is niet gelukt. Probeer WhatsApp of bel ons."})
 .then(function(){b.disabled=false})};
 document.getElementById("wa").onclick=function(){var t=ok();if(t)window.open("https://wa.me/31616623602?text="+encodeURIComponent("Hallo, ik wil graag een richtprijs aanvragen.\n\n"+t),"_blank","noopener")};
-document.getElementById("copy").onclick=function(){var t=ok();if(!t)return;try{navigator.clipboard.writeText(t).then(function(){MG.textContent="Gekopieerd."},function(){MG.textContent="Kopiëren lukt niet, selecteer de tekst handmatig."})}catch(e){MG.textContent="Kopiëren lukt niet, selecteer de tekst handmatig."}};
+var cp=document.getElementById("copy");if(cp)cp.onclick=function(){var t=ok();if(!t)return;try{navigator.clipboard.writeText(t).then(function(){MG.textContent="Gekopieerd."},function(){MG.textContent="Kopiëren lukt niet, selecteer de tekst handmatig."})}catch(e){MG.textContent="Kopiëren lukt niet, selecteer de tekst handmatig."}};
