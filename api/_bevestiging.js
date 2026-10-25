@@ -1,5 +1,5 @@
 // De bevestigingsmail aan de klant: een nette HTML-versie (tabellen en inline stijlen, zodat hij in elk mailprogramma goed oogt) plus een tekstversie.
-const TELEFOON = '06 16 62 36 02', WEB = 'oosterveldinstallaties.nl', LOGO = 'https://oosterveldinstallaties.nl/mail-logo.png';
+const TELEFOON = '06 16 62 36 02', WEB = 'oosterveldinstallaties.nl', LOGO = 'https://oosterveldinstallaties.nl/mail-logo-v2.png';
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const F = "Inter,'Helvetica Neue',Helvetica,Arial,sans-serif";
 
@@ -28,7 +28,7 @@ function bevestiging({ naam, tekst }) {
 <div style="display:none;max-height:0;overflow:hidden;opacity:0">Bedankt voor uw aanvraag. Wij nemen zo snel mogelijk contact met u op.</div>
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#F7F5F1"><tr><td align="center" style="padding:28px 12px">
 <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="width:100%;max-width:600px">
-<tr><td style="background:#1F2328;border-radius:16px 16px 0 0;padding:32px 36px 28px 36px"><img src="${LOGO}" width="320" alt="Oosterveld, installatie, verbouw en renovatie" style="display:block;width:320px;max-width:100%;height:auto;border:0"></td></tr>
+<tr><td style="background:#FFFFFF;border-radius:16px 16px 0 0;padding:30px 36px 26px 36px"><img src="${LOGO}" width="320" alt="Oosterveld, installatie, verbouw en renovatie" style="display:block;width:320px;max-width:100%;height:auto;border:0"></td></tr>
 <tr><td height="4" style="height:4px;line-height:4px;font-size:0;background:#ED9121">&nbsp;</td></tr>
 <tr><td style="background:#FFFFFF;padding:36px 36px 8px 36px">
 <div style="font:600 12px/1 ${F};letter-spacing:.2em;color:#9A5506;margin:0 0 14px 0">AANVRAAG ONTVANGEN</div>
