@@ -70,8 +70,8 @@ if(fc){fc.addEventListener("click",function(e){var b=e.target.closest("button");
  function w(r,k){if(r.classList.contains("rw")){var s=r.querySelector(".rr").children[k];r.style.width=s.scrollWidth+8+"px"}}
  function fit(){rs.forEach(function(r){w(r,i%n)})}
  fit();addEventListener("resize",fit);if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fit);
- setInterval(function(){i++;rs.forEach(function(r){var l=r.querySelector(".rr"),h=l.children[0].getBoundingClientRect().height;l.style.transition="transform .7s cubic-bezier(.65,0,.25,1)";l.style.transform="translateY(-"+i*h+"px)";w(r,i)});
-  if(i==n){setTimeout(function(){rs.forEach(function(r){var l=r.querySelector(".rr");l.style.transition="none";l.style.transform="translateY(0)"});i=0},760)}},2800)})
+ setInterval(function(){i++;rs.forEach(function(r){var l=r.querySelector(".rr"),h=l.children[0].getBoundingClientRect().height;l.style.transition="transform .5s cubic-bezier(.65,0,.25,1)";l.style.transform="translateY(-"+i*h+"px)";w(r,i)});
+  if(i==n){setTimeout(function(){rs.forEach(function(r){var l=r.querySelector(".rr");l.style.transition="none";l.style.transform="translateY(0)"});i=0},560)}},2000)})
 /* Google-reviews automatisch bijwerken (via /api/reviews; bij een fout blijven de vaste reviews staan) */
 var tracks=document.querySelectorAll(".rvs .sl-track,.rgrid");
 if(tracks.length&&location.protocol.indexOf("http")==0&&window.fetch){

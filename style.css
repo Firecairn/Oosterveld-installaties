@@ -304,10 +304,10 @@ footer .fgrid img{height:46px;margin-bottom:14px}
 .fbot{border-top-color:rgba(255,255,255,.16)}
 @media(max-width:760px){.mbar{background:#000}.mbar a{color:#fff;border-color:rgba(255,255,255,.25)}.mbar a.p{background:var(--or);border-color:var(--or);color:var(--ink)}}
 /* ===== wisselende woorden in de kop ===== */
-.rot{display:block;position:relative;overflow:hidden;height:1.18em;line-height:1.18;color:var(--or);margin-top:.04em}
-.rot .rr{display:block;transition:transform .7s cubic-bezier(.65,0,.25,1);will-change:transform}
-.rot .rr span{display:block;height:1.18em;white-space:nowrap}
-.rot.rw{display:inline-block;vertical-align:top;color:inherit;margin-top:0;transition:width .7s cubic-bezier(.65,0,.25,1)}
+.rot{display:block;position:relative;overflow:hidden;height:1.32em;line-height:1.32;color:var(--or);margin-top:-.06em;margin-bottom:-.04em}
+.rot .rr{display:block;transition:transform .5s cubic-bezier(.65,0,.25,1);will-change:transform}
+.rot .rr span{display:block;height:1.32em;white-space:nowrap}
+.rot.rw{display:inline-block;vertical-align:top;color:inherit;margin-top:0;transition:width .5s cubic-bezier(.65,0,.25,1)}
 .rot.static{height:auto;overflow:visible;width:auto!important}
 .rot.static .rr{transform:none!important}
 .rot.static .rr span{display:inline;height:auto;white-space:normal}
