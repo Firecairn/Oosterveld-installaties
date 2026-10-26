@@ -320,3 +320,7 @@ footer .fgrid img{height:46px;margin-bottom:14px}
 .hero h1 .rot.rw{color:#fff}
 @media(max-width:520px){.rot:not(.rw){font-size:.84em}}
 .places a{text-decoration:none;color:inherit}.places a:hover span{border-color:var(--or);color:var(--ink)}
+
+.hero .eyebrow:has(.hlogo){margin-bottom:30px}.hlogo{display:block;width:min(360px,82vw);height:auto}
+.hero h1 .rot.rwhite{color:#fff}
+@media(max-width:520px){.rot.rwhite{font-size:.84em}}
