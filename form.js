@@ -78,7 +78,7 @@ function data(){var o={};C.querySelectorAll(".fg").forEach(function(g){if(g.hidd
 document.getElementById("send").onclick=function(){var t=ok();if(!t)return;
 if(!CFG.endpoint){MG.textContent="Automatisch mailen is in deze voorbeeldpagina nog niet gekoppeld. Gebruik voor nu WhatsApp.";return}
 var b=this;b.disabled=true;MG.textContent="Bezig met versturen…";
-fetch(CFG.endpoint,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({tekst:t,velden:data(),website:document.getElementById("hp").value,pagina:location.href})})
+fetch(CFG.endpoint,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({tekst:t,velden:data(),website:document.getElementById("hp").value,pagina:location.href,herkomst:window.ooHerkomst?window.ooHerkomst():null})})
 .then(function(r){return r.json().then(function(j){if(!r.ok||!j.ok)throw 0;return j})})
 .then(function(){MG.textContent="Bedankt! Je aanvraag is verstuurd. We nemen snel contact met je op."})
 .catch(function(){MG.textContent="Versturen is niet gelukt. Probeer WhatsApp of bel ons."})

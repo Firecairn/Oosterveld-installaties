@@ -93,3 +93,10 @@ if(tracks.length&&location.protocol.indexOf("http")==0&&window.fetch){
   tracks.forEach(function(t){nieuw.slice().reverse().forEach(function(v){t.insertBefore(mk(v),t.firstChild)});var s=t.closest(".sl");if(s&&s._rb){t.scrollLeft=0;s._rb()}});
  }).catch(function(){})}
 })();
+
+/* Herkomst: onthoudt tijdens dit bezoek via welke pagina en bron iemand binnenkwam (sessionStorage, geen cookie).
+   Gaat alleen mee als iemand zelf een formulier verstuurt. Zie privacy.html. */
+(function(){var K="oo-herkomst";function l(){try{return JSON.parse(sessionStorage.getItem(K)||"null")}catch(e){return null}}
+if(!l()){var q=new URLSearchParams(location.search),h={pagina:location.pathname};try{if(document.referrer&&new URL(document.referrer).host!==location.host)h.verwijzer=document.referrer.split("?")[0].slice(0,200)}catch(e){}
+["utm_source","utm_medium","utm_campaign"].forEach(function(k){if(q.get(k))h[k]=q.get(k).slice(0,80)});if(q.get("gclid"))h.gclid="1";try{sessionStorage.setItem(K,JSON.stringify(h))}catch(e){}}
+window.ooHerkomst=function(){return l()||{pagina:location.pathname}}})();

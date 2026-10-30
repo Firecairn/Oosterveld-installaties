@@ -66,12 +66,15 @@ module.exports = async (req, res) => {
   } catch (e) { console.error('Resend fout', e); }
 
   let doorgestuurd = null;
-  if (process.env.WEBHOOK_URL) {
-    const payload = JSON.stringify({ bron: 'website', ontvangen: new Date().toISOString(), project: velden.Project, velden, tekst });
+  if (process.env.WEBHOOK_URL && process.env.WEBHOOK_SECRET) {
+    // Herkomst (pagina, verwijzer, campagne): alleen korte, bekende velden.
+    const h = d.herkomst && typeof d.herkomst === 'object' ? d.herkomst : {}, herkomst = {};
+    for (const [k, max] of [['pagina', 200], ['verwijzer', 200], ['utm_source', 80], ['utm_medium', 80], ['utm_campaign', 80], ['gclid', 4]]) if (typeof h[k] === 'string' && h[k]) herkomst[k] = clean(h[k], max);
+    const payload = JSON.stringify({ bron: 'website', ontvangen: new Date().toISOString(), project: velden.Project, velden, tekst, herkomst });
     try {
       const r = await fetch(process.env.WEBHOOK_URL, {
         method: 'POST', signal: AbortSignal.timeout(6000),
-        headers: { 'Content-Type': 'application/json', 'X-Signature': crypto.createHmac('sha256', process.env.WEBHOOK_SECRET || '').update(payload).digest('hex') },
+        headers: { 'Content-Type': 'application/json', 'X-Signature': crypto.createHmac('sha256', process.env.WEBHOOK_SECRET).update(payload).digest('hex') },
         body: payload,
       });
       doorgestuurd = r.ok;
