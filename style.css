@@ -324,3 +324,10 @@ footer .fgrid img{height:46px;margin-bottom:14px}
 .hero .eyebrow:has(.hlogo){margin-bottom:30px}.hlogo{display:block;width:min(360px,82vw);height:auto}
 .hero h1 .rot.rwhite{color:#fff}
 @media(max-width:520px){.rot.rwhite{font-size:.84em}}
+/* Cookiekeuze (alleen voor Google Analytics) */
+.cookies{position:fixed;left:16px;bottom:16px;z-index:60;max-width:440px;background:#fff;color:var(--ink);border:1px solid var(--line);border-radius:14px;padding:18px 20px;box-shadow:0 12px 32px rgba(31,35,40,.18)}
+.cookies[hidden]{display:none}.cookies p{margin:0 0 10px;font-size:15px;line-height:1.5}.cookies .ck-kop{font-weight:700;font-size:17px;margin-bottom:6px}
+.ck-knoppen{display:flex;gap:10px;flex-wrap:wrap}.ck-knoppen .btn{min-height:44px}
+.ck-link{background:none;border:0;padding:0;font:inherit;color:inherit;cursor:pointer;text-decoration:underline}
+@media(max-width:520px){.cookies{left:12px;right:12px;bottom:12px;max-width:none}}
+.cookies a{color:var(--or-dk)}

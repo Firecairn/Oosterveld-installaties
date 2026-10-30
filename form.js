@@ -80,7 +80,7 @@ if(!CFG.endpoint){MG.textContent="Automatisch mailen is in deze voorbeeldpagina 
 var b=this;b.disabled=true;MG.textContent="Bezig met versturen…";
 fetch(CFG.endpoint,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({tekst:t,velden:data(),website:document.getElementById("hp").value,pagina:location.href,herkomst:window.ooHerkomst?window.ooHerkomst():null})})
 .then(function(r){return r.json().then(function(j){if(!r.ok||!j.ok)throw 0;return j})})
-.then(function(){MG.textContent="Bedankt! Je aanvraag is verstuurd. We nemen snel contact met je op."})
+.then(function(){MG.textContent="Bedankt! Je aanvraag is verstuurd. We nemen snel contact met je op.";if(window.ooEvent)window.ooEvent("generate_lead",{formulier:"richtprijs"})})
 .catch(function(){MG.textContent="Versturen is niet gelukt. Probeer WhatsApp of bel ons."})
 .then(function(){b.disabled=false})};
 document.getElementById("wa").onclick=function(){var t=ok();if(t)window.open("https://wa.me/31616623602?text="+encodeURIComponent("Hallo, ik wil graag een richtprijs aanvragen.\n\n"+t),"_blank","noopener")};
