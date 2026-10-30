@@ -88,7 +88,7 @@ if(tracks.length&&location.protocol.indexOf("http")==0&&window.fetch){
    var c=document.createElement("figcaption"),av=document.createElement("span");av.className="av g";av.setAttribute("aria-hidden","true");av.textContent=(v.naam||"G").charAt(0).toUpperCase();
    var w=document.createElement("span"),b=document.createElement("b");b.textContent=v.naam||"Google-gebruiker";var sm=document.createElement("small"),dt="";
    if(v.datum){try{dt=" · "+new Date(v.datum).toLocaleDateString("nl-NL",{month:"long",year:"numeric"})}catch(e){}}
-   if(v.url){var l=document.createElement("a");l.href=v.url;l.target="_blank";l.rel="noopener nofollow";l.textContent="Google review";l.style.color="inherit";sm.appendChild(l);sm.appendChild(document.createTextNode(dt))}else sm.textContent="Google review"+dt;
+   if(v.url&&/^https:\/\//.test(v.url)){var l=document.createElement("a");l.href=v.url;l.target="_blank";l.rel="noopener nofollow";l.textContent="Google review";l.style.color="inherit";sm.appendChild(l);sm.appendChild(document.createTextNode(dt))}else sm.textContent="Google review"+dt;
    w.appendChild(b);w.appendChild(sm);c.appendChild(av);c.appendChild(w);f.appendChild(c);return f};
   tracks.forEach(function(t){nieuw.slice().reverse().forEach(function(v){t.insertBefore(mk(v),t.firstChild)});var s=t.closest(".sl");if(s&&s._rb){t.scrollLeft=0;s._rb()}});
  }).catch(function(){})}
