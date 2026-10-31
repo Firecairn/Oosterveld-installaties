@@ -22,8 +22,11 @@ module.exports = async (req, res) => {
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
     res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   }
+  res.setHeader('Cache-Control', 'no-store');
   if (req.method === 'OPTIONS') return res.status(204).end();
   if (req.method !== 'POST') return res.status(405).json({ ok: false, fout: 'Alleen POST' });
+  // Alleen de eigen site mag het formulier versturen.
+  if (!/^https:\/\/(www\.)?oosterveldinstallaties\.nl$/.test(origin)) return res.status(403).json({ ok: false, fout: 'Geen toegang' });
 
   let d = req.body;
   if (typeof d === 'string') { try { d = JSON.parse(d); } catch { d = null; } }
@@ -98,7 +101,7 @@ module.exports = async (req, res) => {
       method: 'POST',
       headers: { Authorization: 'Bearer ' + process.env.RESEND_API_KEY, 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        from: 'Oosterveld Installaties <' + process.env.FROM_EMAIL + '>',
+        from: 'Oosterveld <' + process.env.FROM_EMAIL + '>',
         to: [email], reply_to: process.env.TO_EMAIL, subject: 'Wij hebben uw aanvraag ontvangen', html, text,
       }),
     });

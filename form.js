@@ -53,7 +53,7 @@ if(f.t=="r"||f.t=="m"){f.o.forEach(function(o){h+='<label class="chip"><input ty
 else if(f.t=="d"){h+='<div class="dim"><input type="number" step="0.1" min="0" inputmode="decimal" aria-label="Lengte" placeholder="Lengte"><span>×</span><input type="number" step="0.1" min="0" inputmode="decimal" aria-label="Breedte" placeholder="Breedte"></div>'}
 else if(f.t=="n"){h+='<div class="dim"><input type="number" min="0" step="1" inputmode="numeric" aria-label="'+f.k+'" placeholder="Aantal"></div>'}
 else if(f.t=="f"){h+='<p class="ftip" id="ftip">Met een paar foto\'s of een korte video kunnen we vaak al een richtprijs geven zonder eerst langs te komen.</p><label class="fbtn"><input id="fin" type="file" accept="image/*,video/*" multiple><span>Foto\'s of video toevoegen</span></label><div class="fthumbs" id="fthumbs"></div><p class="fnote" id="fnote">Maximaal 6 foto\'s. Van een video nemen we een paar beelden.</p>'}
-else if(f.t=="a"){h+='<textarea rows="3" placeholder="Omschrijf kort wat u wilt laten doen, of geef extra wensen door"></textarea>'}
+else if(f.t=="a"){h+='<textarea rows="3" placeholder="Omschrijf kort wat je wilt laten doen, of geef extra wensen door"></textarea>'}
 else{h+='<input type="'+(f.k=="Telefoonnummer"?"tel":(f.s=="E-mail"?"email":"text"))+'" aria-label="'+f.k+'"'+(f.s=="E-mail"?' autocomplete="email"':'')+'>'}
 C.insertAdjacentHTML("beforeend",h+"</div>")});
 function proj(){var c=C.querySelector('[name=f0]:checked');return c?P[c.value]:""}
@@ -86,7 +86,7 @@ fotoData().then(function(fotos){return fetch(CFG.endpoint,{method:"POST",headers
 .then(function(){MG.textContent="Bedankt! Je aanvraag is verstuurd. We nemen snel contact met je op.";FOTO.forEach(function(f){URL.revokeObjectURL(f.url)});FOTO=[];toon();upd()})
 .catch(function(){MG.textContent="Versturen is niet gelukt. Probeer WhatsApp of bel ons."})
 .then(function(){b.disabled=false})};
-document.getElementById("wa").onclick=function(){var t=ok();if(t)window.open("https://wa.me/31616623602?text="+encodeURIComponent("Hallo, ik wil graag een richtprijs aanvragen.\n\n"+t),"_blank","noopener")};
+document.getElementById("wa").onclick=function(){var t=ok();if(!t)return;var n=FOTO.length;t=t.split("\n").filter(function(r){return r.indexOf("Foto's: ")!==0}).join("\n");if(n)t+="\n\nIk stuur "+(n==1?"1 foto":n+" foto's")+" los in deze chat.";if(n)MG.textContent="Stuur je foto's los in de WhatsApp-chat; ze gaan niet automatisch mee.";window.open("https://wa.me/31616623602?text="+encodeURIComponent("Hallo, ik wil graag een richtprijs aanvragen.\n\n"+t),"_blank","noopener")};
 var cp=document.getElementById("copy");if(cp)cp.onclick=function(){var t=ok();if(!t)return;try{navigator.clipboard.writeText(t).then(function(){MG.textContent="Gekopieerd."},function(){MG.textContent="Kopiëren lukt niet, selecteer de tekst handmatig."})}catch(e){MG.textContent="Kopiëren lukt niet, selecteer de tekst handmatig."}};
 /* Foto- en video-intake: foto's worden in de browser verkleind, van een video nemen we 4 beelden. Alles gaat als JPEG mee met de aanvraag. */
 var FOTO=[],FMAX=6,FIN=document.getElementById("fin"),FT=document.getElementById("fthumbs"),FN=document.getElementById("fnote"),FTIP=document.getElementById("ftip");
@@ -112,5 +112,5 @@ function voeg(b,bron){if(b&&FOTO.length<FMAX)FOTO.push({blob:b,url:URL.createObj
 if(FIN)FIN.onchange=function(){var fs=[].slice.call(FIN.files),mis=0;FIN.value="";FN.textContent="Bezig met verwerken…";
 fs.reduce(function(p,f){return p.then(function(){if(FOTO.length>=FMAX)return;
 var vid=/^video\//.test(f.type);return (vid?beelden(f,Math.min(4,FMAX-FOTO.length)).then(function(bs){bs.forEach(function(b){voeg(b,"video")})}):foto(f).then(function(b){voeg(b,"foto")})).catch(function(){mis++})})},Promise.resolve())
-.then(function(){toon();upd();if(mis)FN.textContent="Niet alles kon worden gelezen. Probeer een gewone foto (JPG) of een kortere video.";});};
+.then(function(){toon();upd();if(mis)FN.textContent="Niet alles kon worden gelezen. Foto's van een iPhone lukken soms niet op een computer: kies ze dan vanaf je telefoon, of probeer een kortere video.";});};
 function fotoData(){return Promise.all(FOTO.map(function(f){return new Promise(function(ok){var r=new FileReader();r.onload=function(){ok({data:String(r.result).split(",")[1],bron:f.bron})};r.onerror=function(){ok(null)};r.readAsDataURL(f.blob)})})).then(function(a){return a.filter(Boolean)})}
