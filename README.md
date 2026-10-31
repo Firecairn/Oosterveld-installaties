@@ -3,7 +3,15 @@
 Website van oosterveldinstallaties.nl (statische HTML/CSS/JS).
 
 - `api/aanvraag.js`: Vercel-functie die het offerteformulier per e-mail (Resend) verstuurt en optioneel doorstuurt naar het offertesysteem. Zie de variabelen bovenin het bestand.
-- `api/aanvraag.js`: Vercel-functie die het offerteformulier per e-mail (Resend) verstuurt en optioneel doorstuurt naar het offertesysteem. Zie de variabelen bovenin het bestand.
+
+## Foto- en video-intake
+
+In het aanvraagformulier kan de klant tot 6 foto's of een korte video meesturen (`form.js`). De browser verkleint de foto's en neemt van een video 4 stilstaande beelden; alleen die JPEG's gaan mee.
+
+- De beelden komen als bijlage in de aanvraagmail aan Jasper.
+- Staat `ANTHROPIC_API_KEY` in Vercel (Settings → Environment Variables), dan leest Claude de beelden uit (`api/_fotos.js`). De uitkomst staat onder "FOTO-ANALYSE" in de mail en gaat mee naar het offertesysteem, waar de conceptofferte hem gebruikt.
+- Zonder sleutel werkt alles nog; de foto's worden dan alleen gemaild.
+- De functie mag 60 seconden duren (`vercel.json`), omdat het uitlezen een paar seconden kost.
 
 ## Google-reviews automatisch bijwerken
 

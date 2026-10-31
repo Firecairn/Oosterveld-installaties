@@ -324,3 +324,15 @@ footer .fgrid img{height:46px;margin-bottom:14px}
 .hero .eyebrow:has(.hlogo){margin-bottom:30px}.hlogo{display:block;width:min(360px,82vw);height:auto}
 .hero h1 .rot.rwhite{color:#fff}
 @media(max-width:520px){.rot.rwhite{font-size:.84em}}
+/* Foto- en video-intake in het aanvraagformulier */
+.ftip{margin:0 0 10px;color:var(--muted);font-size:.93rem}
+.fbtn{display:inline-flex;align-items:center;gap:8px;position:relative;cursor:pointer;padding:12px 18px;border:2px dashed var(--or);border-radius:10px;background:var(--soft);font-weight:700}
+.fbtn input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%}
+.fbtn:focus-within{outline:3px solid var(--or-dk);outline-offset:2px}
+.fbtn span:before{content:"+";display:inline-grid;place-items:center;width:22px;height:22px;margin-right:8px;border-radius:50%;background:var(--or);color:var(--ink)}
+.fthumbs{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.fthumbs div{position:relative}
+.fthumbs img{width:76px;height:76px;object-fit:cover;border-radius:8px;border:1px solid var(--line);display:block}
+.fthumbs button{position:absolute;top:-8px;right:-8px;width:26px;height:26px;border-radius:50%;border:0;background:var(--ink);color:#fff;font-size:16px;line-height:1;cursor:pointer}
+.fnote{margin:8px 0 0;color:var(--muted);font-size:.85rem}
+.fhint{margin:16px 0 0;font-size:.98rem;color:#e4e2dc;max-width:34em}.fhint b{color:var(--or)}

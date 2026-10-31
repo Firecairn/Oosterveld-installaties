@@ -6,8 +6,10 @@
 //   FROM_EMAIL       (verplicht)  afzender op een geverifieerd domein, bijv. website@oosterveldinstallaties.nl
 //   WEBHOOK_URL      (optioneel)  endpoint van het offertesysteem
 //   WEBHOOK_SECRET   (optioneel)  gedeeld geheim, HMAC-SHA256 in header X-Signature
+//   ANTHROPIC_API_KEY (optioneel) laat de AI meegestuurde foto's uitlezen; zonder sleutel worden ze alleen gemaild
 const crypto = require('crypto');
 const { bevestiging } = require('./_bevestiging');
+const { leesFotos, analyseer } = require('./_fotos');
 const hits = new Map(); // eenvoudige rate limit per instantie
 const MAIL = /^[A-Za-z0-9._%+'-]{1,64}@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,24}$/; // strikt: geen komma's, spaties of haakjes
 const clean = (v, max = 3000) => (typeof v === 'string' ? v.replace(/[^\P{C}\n]/gu, '').trim().slice(0, max) : '');
@@ -46,6 +48,10 @@ module.exports = async (req, res) => {
   }
   if (velden['E-mail'].length > 254 || !MAIL.test(velden['E-mail'])) return res.status(422).json({ ok: false, fout: 'Ongeldig e-mailadres' });
   const tekst = clean(d.tekst, 6000);
+  const fotos = leesFotos(d.fotos);
+  let analyse = null;
+  if (fotos.length) { try { analyse = await analyseer(fotos, velden); } catch (e) { console.error('Foto-analyse mislukt', e.message); } }
+  const fotoTekst = fotos.length ? `\n\nFOTO'S: ${fotos.length} beeld(en) meegestuurd${fotos.some((f) => f.bron === 'video') ? ' (deels uit een video)' : ''}, zie de bijlagen in de mail.${analyse ? '\n\n' + analyse : ''}` : '';
   const email = velden['E-mail'];
   const onderwerp = `Nieuwe offerte-aanvraag: ${velden.Project} – ${velden.Woonplaats} – ${velden.Naam}`.replace(/\s+/g, ' ');
   const tijd = new Date().toLocaleString('nl-NL', { timeZone: 'Europe/Amsterdam' });
@@ -58,7 +64,8 @@ module.exports = async (req, res) => {
       body: JSON.stringify({
         from: 'Oosterveld website <' + process.env.FROM_EMAIL + '>',
         to: [process.env.TO_EMAIL], reply_to: email, subject: onderwerp,
-        text: `${tekst}\n\n--\nOntvangen via oosterveldinstallaties.nl op ${tijd}\n`,
+        text: `${tekst}${fotoTekst}\n\n--\nOntvangen via oosterveldinstallaties.nl op ${tijd}\n`,
+        ...(fotos.length ? { attachments: fotos.map((f, i) => ({ filename: `${f.bron}-${i + 1}.jpg`, content: f.buf.toString('base64') })) } : {}),
       }),
     });
     verzonden = r.ok;
@@ -70,7 +77,8 @@ module.exports = async (req, res) => {
     // Herkomst (pagina, verwijzer, campagne): alleen korte, bekende velden.
     const h = d.herkomst && typeof d.herkomst === 'object' ? d.herkomst : {}, herkomst = {};
     for (const [k, max] of [['pagina', 200], ['verwijzer', 200], ['utm_source', 80], ['utm_medium', 80], ['utm_campaign', 80], ['gclid', 4]]) if (typeof h[k] === 'string' && h[k]) herkomst[k] = clean(h[k], max);
-    const payload = JSON.stringify({ bron: 'website', ontvangen: new Date().toISOString(), project: velden.Project, velden, tekst, herkomst });
+    const systeemTekst = fotoTekst ? (tekst.slice(0, 6000 - fotoTekst.length) + fotoTekst).slice(0, 6000) : tekst;
+    const payload = JSON.stringify({ bron: 'website', ontvangen: new Date().toISOString(), project: velden.Project, velden, tekst: systeemTekst, herkomst });
     try {
       const r = await fetch(process.env.WEBHOOK_URL, {
         method: 'POST', signal: AbortSignal.timeout(6000),
