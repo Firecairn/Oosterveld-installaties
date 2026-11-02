@@ -329,7 +329,7 @@ footer .fgrid img{height:46px;margin-bottom:14px}
 .fbtn{display:inline-flex;align-items:center;gap:8px;position:relative;cursor:pointer;padding:12px 18px;border:2px dashed var(--or);border-radius:10px;background:var(--soft);font-weight:700}
 .fbtn input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%}
 .fbtn:focus-within{outline:3px solid var(--or-dk);outline-offset:2px}
-.fbtn span:before{content:"+";display:inline-grid;place-items:center;width:22px;height:22px;margin-right:8px;border-radius:50%;background:var(--or);color:var(--ink)}
+.fbtn{gap:12px;padding:14px 20px}.fbtn span{display:inline-flex;align-items:center}.fbtn span:before{content:"";flex:none;width:28px;height:28px;margin-right:12px;border-radius:50%;background:var(--or) url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 28 28%27%3E%3Cpath d=%27M14 8v12M8 14h12%27 stroke=%27%231F2328%27 stroke-width=%272.6%27 stroke-linecap=%27round%27 fill=%27none%27/%3E%3C/svg%3E") center/100% 100% no-repeat}
 .fthumbs{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
 .fthumbs div{position:relative}
 .fthumbs img{width:76px;height:76px;object-fit:cover;border-radius:8px;border:1px solid var(--line);display:block}
