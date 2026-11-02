@@ -91,7 +91,7 @@ var cp=document.getElementById("copy");if(cp)cp.onclick=function(){var t=ok();if
 /* Foto- en video-intake: foto's worden in de browser verkleind, van een video nemen we 4 beelden. Alles gaat als JPEG mee met de aanvraag. */
 var FOTO=[],FMAX=6,FIN=document.getElementById("fin"),FT=document.getElementById("fthumbs"),FN=document.getElementById("fnote"),FTIP=document.getElementById("ftip");
 var TIPS={b:"Maak foto's van de huidige badkamer: vanuit de deuropening en van de hoeken met kranen en leidingen.",t:"Maak een foto van het toilet en de ruimte, en van de plek waar de leidingen de muur in gaan.",e:"Maak een foto van de hele meterkast met de klepjes zichtbaar, en een foto van dichtbij van de groepen.",z:"Maak een foto van het dak vanaf de straat of tuin, en een van de meterkast.",a:"Maak een foto van de meterkast en van de plek waar de thuisbatterij moet komen.",l:"Maak foto's van de leidingen en de plek van de klus."};
-function tip(){var p=proj();FTIP.textContent=(TIPS[p]||"Maak foto's of een korte video van de plek van de klus.")+" Dan kunnen we vaak al een richtprijs geven zonder eerst langs te komen."}
+function tip(){var p=proj();FTIP.textContent=(TIPS[p]||"Maak foto's of een korte video van de plek van de klus.")+" Minimaal één foto of video is nodig, dan kunnen we vaak al een richtprijs geven zonder eerst langs te komen."}
 C.addEventListener("change",function(e){if(e.target&&e.target.name=="f0")tip()});tip();
 function teken(c,w,h){var m=Math.min(1,1280/Math.max(w,h)),cv=document.createElement("canvas");cv.width=Math.round(w*m);cv.height=Math.round(h*m);cv.getContext("2d").drawImage(c,0,0,cv.width,cv.height);return new Promise(function(ok){cv.toBlob(ok,"image/jpeg",0.78)})}
 function foto(file){
@@ -107,7 +107,7 @@ v.src=u;setTimeout(klaar,15000)})}
 function toon(){FT.textContent="";FOTO.forEach(function(f,k){var d=document.createElement("div"),im=document.createElement("img"),x=document.createElement("button");
 im.src=f.url;im.alt=f.bron=="video"?"Beeld uit je video":"Je foto";x.type="button";x.textContent="×";x.setAttribute("aria-label","Verwijder dit beeld");
 x.onclick=function(){URL.revokeObjectURL(f.url);FOTO.splice(k,1);toon();upd()};d.append(im,x);FT.appendChild(d)});
-FN.textContent=FOTO.length?FOTO.length+" van "+FMAX+" beelden. Van een video nemen we een paar beelden.":"Maximaal 6 foto's. Van een video nemen we een paar beelden."}
+FN.textContent=FOTO.length?FOTO.length+" van "+FMAX+" beelden. Van een video nemen we een paar beelden.":"Verplicht: minimaal 1, maximaal 6 foto's. Van een video nemen we een paar beelden."}
 function voeg(b,bron){if(b&&FOTO.length<FMAX)FOTO.push({blob:b,url:URL.createObjectURL(b),bron:bron})}
 if(FIN)FIN.onchange=function(){var fs=[].slice.call(FIN.files),mis=0;FIN.value="";FN.textContent="Bezig met verwerken…";
 fs.reduce(function(p,f){return p.then(function(){if(FOTO.length>=FMAX)return;
