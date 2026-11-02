@@ -100,3 +100,17 @@ if(tracks.length&&location.protocol.indexOf("http")==0&&window.fetch){
 if(!l()){var q=new URLSearchParams(location.search),h={pagina:location.pathname};try{if(document.referrer&&new URL(document.referrer).host!==location.host)h.verwijzer=document.referrer.split("?")[0].slice(0,200)}catch(e){}
 ["utm_source","utm_medium","utm_campaign"].forEach(function(k){if(q.get(k))h[k]=q.get(k).slice(0,80)});if(q.get("gclid"))h.gclid="1";try{sessionStorage.setItem(K,JSON.stringify(h))}catch(e){}}
 window.ooHerkomst=function(){return l()||{pagina:location.pathname}}})();
+
+/* Google Analytics: alleen na toestemming van de bezoeker */
+(function(){var ID="G-KFHQD5ZPKH",K="oosterveld-analytics";
+function get(){try{return localStorage.getItem(K)}catch(e){return null}}
+function set(v){try{localStorage.setItem(K,v)}catch(e){}}
+function laad(){if(window.__ga)return;window.__ga=1;window.dataLayer=window.dataLayer||[];window.gtag=function(){dataLayer.push(arguments)};gtag("js",new Date());gtag("config",ID,{allow_google_signals:false,allow_ad_personalization_signals:false});var s=document.createElement("script");s.async=true;s.src="https://www.googletagmanager.com/gtag/js?id="+ID;document.head.appendChild(s)}
+function weg(){var b=document.getElementById("cb");if(b)b.remove()}
+function toon(){weg();var b=document.createElement("div");b.id="cb";b.setAttribute("role","dialog");b.setAttribute("aria-label","Cookies");
+var p=document.createElement("p");p.textContent="We gebruiken Google Analytics om te zien welke pagina's bezocht worden, zodat we de website kunnen verbeteren. Dat gebeurt alleen als je dat goed vindt. ";var a=document.createElement("a");a.href="privacy.html#cookies";a.textContent="Meer informatie";p.appendChild(a);
+var w=document.createElement("div");var n=document.createElement("button");n.type="button";n.className="no";n.textContent="Weigeren";var y=document.createElement("button");y.type="button";y.className="ja";y.textContent="Accepteren";
+n.onclick=function(){set("nee");weg()};y.onclick=function(){set("ja");weg();laad()};w.appendChild(n);w.appendChild(y);b.appendChild(p);b.appendChild(w);document.body.appendChild(b)}
+var c=get();if(c==="ja")laad();else if(c!=="nee")toon();
+var f=document.querySelector(".fbot");if(f){var l=document.createElement("a");l.href="#";l.textContent="Cookie-instellingen";l.onclick=function(e){e.preventDefault();toon()};f.insertBefore(l,f.children[1]||null)}
+})();
