@@ -89,7 +89,8 @@ module.exports = async (req, res) => {
         body: payload,
       });
       doorgestuurd = r.ok;
-    } catch { doorgestuurd = false; }
+      if (!r.ok) console.error('Offertesysteem antwoordde', r.status, (await r.text()).slice(0, 200));
+    } catch (e) { doorgestuurd = false; console.error('Offertesysteem niet bereikt:', e && e.message); }
     if (!doorgestuurd) console.error('Doorsturen naar offertesysteem mislukt');
   }
   if (!verzonden && doorgestuurd !== true) return res.status(500).json({ ok: false, fout: 'Versturen mislukt' });
