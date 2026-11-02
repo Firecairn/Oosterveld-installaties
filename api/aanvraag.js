@@ -90,6 +90,19 @@ module.exports = async (req, res) => {
       });
       doorgestuurd = r.ok;
       if (!r.ok) console.error('Offertesysteem antwoordde', r.status, (await r.text()).slice(0, 200));
+      // Foto's los erachteraan, zodat elk verzoek klein blijft. Mislukt dit, dan staan ze nog in de mail.
+      else if (fotos.length) {
+        const id = (await r.json().catch(() => ({}))).id;
+        if (Number.isInteger(id)) {
+          await Promise.all(fotos.map(async (f) => {
+            const fp = JSON.stringify({ foto: { aanvraag: id, bron: f.bron, data: f.buf.toString('base64') } });
+            try {
+              const fr = await fetch(process.env.WEBHOOK_URL, { method: 'POST', signal: AbortSignal.timeout(8000), headers: { 'Content-Type': 'application/json', 'X-Signature': crypto.createHmac('sha256', process.env.WEBHOOK_SECRET).update(fp).digest('hex') }, body: fp });
+              if (!fr.ok) console.error('Foto doorsturen mislukt', fr.status, (await fr.text()).slice(0, 120));
+            } catch (e) { console.error('Foto doorsturen mislukt:', e && e.message); }
+          }));
+        }
+      }
     } catch (e) { doorgestuurd = false; console.error('Offertesysteem niet bereikt:', e && e.message); }
     if (!doorgestuurd) console.error('Doorsturen naar offertesysteem mislukt');
   }

@@ -79,14 +79,13 @@ if(need.length){MG.textContent="Vul nog in: "+need.join(", ")+".";return null}
 var em=(t.match(/E-mail: (.*)/)||[])[1]||"";if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){MG.textContent="Vul een geldig e-mailadres in.";return null}MG.textContent="";return t}
 function data(){var o={};C.querySelectorAll(".fg").forEach(function(g){if(g.hidden)return;var v=val(g);if(v)o[g.dataset.k]=v});return o}
 document.getElementById("send").onclick=function(){var t=ok();if(!t)return;
-if(!CFG.endpoint){MG.textContent="Automatisch mailen is in deze voorbeeldpagina nog niet gekoppeld. Gebruik voor nu WhatsApp.";return}
+if(!CFG.endpoint){MG.textContent="Automatisch mailen is in deze voorbeeldpagina nog niet gekoppeld. Bel ons voor nu.";return}
 var b=this;b.disabled=true;MG.textContent=FOTO.length?"Bezig met versturen, foto's worden meegestuurd…":"Bezig met versturen…";
 fotoData().then(function(fotos){return fetch(CFG.endpoint,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({tekst:t,velden:data(),fotos:fotos,website:document.getElementById("hp").value,pagina:location.href,herkomst:window.ooHerkomst?window.ooHerkomst():null})})})
 .then(function(r){return r.json().then(function(j){if(!r.ok||!j.ok)throw 0;return j})})
 .then(function(){MG.textContent="Bedankt! Je aanvraag is verstuurd. We nemen snel contact met je op.";FOTO.forEach(function(f){URL.revokeObjectURL(f.url)});FOTO=[];toon();upd()})
-.catch(function(){MG.textContent="Versturen is niet gelukt. Probeer WhatsApp of bel ons."})
+.catch(function(){MG.textContent="Versturen is niet gelukt. Probeer het later opnieuw of bel ons."})
 .then(function(){b.disabled=false})};
-document.getElementById("wa").onclick=function(){var t=ok();if(!t)return;var n=FOTO.length;t=t.split("\n").filter(function(r){return r.indexOf("Foto's: ")!==0}).join("\n");if(n)t+="\n\nIk stuur "+(n==1?"1 foto":n+" foto's")+" los in deze chat.";if(n)MG.textContent="Stuur je foto's los in de WhatsApp-chat; ze gaan niet automatisch mee.";window.open("https://wa.me/31616623602?text="+encodeURIComponent("Hallo, ik wil graag een richtprijs aanvragen.\n\n"+t),"_blank","noopener")};
 var cp=document.getElementById("copy");if(cp)cp.onclick=function(){var t=ok();if(!t)return;try{navigator.clipboard.writeText(t).then(function(){MG.textContent="Gekopieerd."},function(){MG.textContent="Kopiëren lukt niet, selecteer de tekst handmatig."})}catch(e){MG.textContent="Kopiëren lukt niet, selecteer de tekst handmatig."}};
 /* Foto- en video-intake: foto's worden in de browser verkleind, van een video nemen we 4 beelden. Alles gaat als JPEG mee met de aanvraag. */
 var FOTO=[],FMAX=6,FIN=document.getElementById("fin"),FT=document.getElementById("fthumbs"),FN=document.getElementById("fnote"),FTIP=document.getElementById("ftip");
