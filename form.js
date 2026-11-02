@@ -1,8 +1,8 @@
 var CFG={endpoint:"/api/aanvraag"}; /* Adres dat de aanvraag ontvangt en mailt, bijv. "/aanvraag.php". Leeg = voorbeeldpagina. */
-var P={"Complete badkamer":"b","Toilet":"t","Elektrawerk":"e","Zonnepanelen":"z","Accu installatie":"a","Loodgieterwerk":"l"};
+var P={"Badkamer":"b","Toilet":"t","Elektrawerk":"e","Zonnepanelen":"z","Accu installatie":"a","Loodgieterwerk":"l"};
 var BR=["Heb ik al","Levering door Oosterveld","Nog onbekend"];
 var F=[
-{k:"Project",t:"r",o:["Complete badkamer","Toilet","Elektrawerk","Zonnepanelen","Accu installatie","Loodgieterwerk"]},
+{k:"Project",t:"r",o:["Badkamer","Toilet","Elektrawerk","Zonnepanelen","Accu installatie","Loodgieterwerk"]},
 {k:"Particulier of zakelijk",s:"Klanttype",t:"r",o:["Particulier","Zakelijk"]},
 {k:"Woning",t:"r",o:["Nieuwbouw","Bestaande bouw"]},
 {k:"Verdieping",t:"r",o:["Begane grond","1e verdieping","2e verdieping of hoger"],f:"bt"},
@@ -42,17 +42,17 @@ var F=[
 {k:"Doel",t:"m",o:["Meer eigen stroom gebruiken","Lagere energiekosten","Noodstroom bij storing","Terugleverkosten verlagen"],f:"a"},
 {k:"Welk loodgieterwerk",s:"Loodgieterwerk",t:"m",o:["Keuken aansluiten (water en afvoer)","Waterleiding verleggen of aanleggen","Afvoer verleggen of aanleggen","Sanitair aansluiten","Anders, zie opmerkingen"],f:"l"},
 {k:"Keuken",t:"r",o:["Nieuwe keuken wordt geplaatst","Keuken blijft, alleen aansluiten","Weet ik niet"],f:"l",w:"Loodgieterwerk:Keuken"},
-{k:"Foto's of video (optioneel)",s:"Foto's",t:"f"},
+{k:"Foto's of video",s:"Foto's",t:"f"},
 {k:"Opmerkingen of extra wensen",s:"Opmerkingen",t:"a"},
 {k:"Woonplaats",t:"x"},{k:"Naam",t:"x"},{k:"Telefoonnummer",s:"Telefoon",t:"x"},{k:"E-mailadres",s:"E-mail",t:"x"}
 ];
 var C=document.getElementById("fields"),SM=document.getElementById("sum"),MG=document.getElementById("msg");
 F.forEach(function(f,i){
-var h='<div class="fg" data-f="'+(f.f||"")+'" data-w="'+(f.w||"")+'" data-k="'+(f.s||f.k)+'" data-t="'+f.t+'"><div class="fl">'+f.k+(["Project","Woonplaats","Naam","Telefoonnummer","E-mailadres"].indexOf(f.k)>=0?'<span aria-hidden="true" style="color:var(--or)"> *</span>':'')+'</div>';
+var h='<div class="fg" data-f="'+(f.f||"")+'" data-w="'+(f.w||"")+'" data-k="'+(f.s||f.k)+'" data-t="'+f.t+'"><div class="fl">'+f.k+(["Project","Woonplaats","Naam","Telefoonnummer","E-mailadres","Foto's of video"].indexOf(f.k)>=0?'<span aria-hidden="true" style="color:var(--or)"> *</span>':'')+'</div>';
 if(f.t=="r"||f.t=="m"){f.o.forEach(function(o){h+='<label class="chip"><input type="'+(f.t=="r"?"radio":"checkbox")+'" name="f'+i+'" value="'+o+'"><span>'+o+'</span></label>'})}
 else if(f.t=="d"){h+='<div class="dim"><input type="number" step="0.1" min="0" inputmode="decimal" aria-label="Lengte" placeholder="Lengte"><span>×</span><input type="number" step="0.1" min="0" inputmode="decimal" aria-label="Breedte" placeholder="Breedte"><span>×</span><input type="number" step="0.1" min="0" inputmode="decimal" aria-label="Hoogte" placeholder="Hoogte"></div>'}
 else if(f.t=="n"){h+='<div class="dim"><input type="number" min="0" step="1" inputmode="numeric" aria-label="'+f.k+'" placeholder="Aantal"></div>'}
-else if(f.t=="f"){h+='<p class="ftip" id="ftip">Met een paar foto\'s of een korte video kunnen we vaak al een richtprijs geven zonder eerst langs te komen.</p><label class="fbtn"><input id="fin" type="file" accept="image/*,video/*" multiple><span>Foto\'s of video toevoegen</span></label><div class="fthumbs" id="fthumbs"></div><p class="fnote" id="fnote">Maximaal 6 foto\'s. Van een video nemen we een paar beelden.</p>'}
+else if(f.t=="f"){h+='<p class="ftip" id="ftip">Voeg minimaal één foto of een korte video toe. Daarmee kunnen we vaak al een richtprijs geven zonder eerst langs te komen.</p><label class="fbtn"><input id="fin" type="file" accept="image/*,video/*" multiple><span>Foto\'s of video toevoegen</span></label><div class="fthumbs" id="fthumbs"></div><p class="fnote" id="fnote">Maximaal 6 foto\'s. Van een video nemen we een paar beelden.</p>'}
 else if(f.t=="a"){h+='<textarea rows="3" placeholder="Omschrijf kort wat je wilt laten doen, of geef extra wensen door"></textarea>'}
 else{h+='<input type="'+(f.k=="Telefoonnummer"?"tel":(f.s=="E-mail"?"email":"text"))+'" aria-label="'+f.k+'"'+(f.s=="E-mail"?' autocomplete="email"':'')+'>'}
 C.insertAdjacentHTML("beforeend",h+"</div>")});
@@ -73,9 +73,10 @@ var v=val(g);M[g.dataset.k]=v;if(v)L.push(g.dataset.k+": "+v)});
 return L.length>1?L.join("\n"):"Nog niets ingevuld."}
 function upd(){SM.textContent=build()}
 C.addEventListener("input",upd);C.addEventListener("change",upd);upd();
-(function(){try{var q=new URLSearchParams(location.search).get("project"),M={badkamer:"Complete badkamer",toilet:"Toilet",elektra:"Elektrawerk",zonnepanelen:"Zonnepanelen",accu:"Accu installatie",loodgieter:"Loodgieterwerk"};if(q&&M[q]){var el=C.querySelector('[name=f0][value="'+M[q]+'"]');if(el){el.checked=true;upd()}}}catch(e){}})();
+(function(){try{var q=new URLSearchParams(location.search).get("project"),M={badkamer:"Badkamer",toilet:"Toilet",elektra:"Elektrawerk",zonnepanelen:"Zonnepanelen",accu:"Accu installatie",loodgieter:"Loodgieterwerk"};if(q&&M[q]){var el=C.querySelector('[name=f0][value="'+M[q]+'"]');if(el){el.checked=true;upd()}}}catch(e){}})();
 function ok(){var t=build(),need=[];["Project","Woonplaats","Naam","Telefoon","E-mail"].forEach(function(k){if(t.indexOf(k+": ")<0)need.push(k)});
 if(need.length){MG.textContent="Vul nog in: "+need.join(", ")+".";return null}
+if(!FOTO.length){MG.textContent="Voeg minimaal één foto of korte video toe.";var fi=document.getElementById("fin");if(fi&&fi.parentNode&&fi.parentNode.scrollIntoView)fi.parentNode.scrollIntoView({block:"center",behavior:"smooth"});return null}
 var em=(t.match(/E-mail: (.*)/)||[])[1]||"";if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){MG.textContent="Vul een geldig e-mailadres in.";return null}MG.textContent="";return t}
 function data(){var o={};C.querySelectorAll(".fg").forEach(function(g){if(g.hidden)return;var v=val(g);if(v)o[g.dataset.k]=v});return o}
 document.getElementById("send").onclick=function(){var t=ok();if(!t)return;

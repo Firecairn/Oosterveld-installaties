@@ -52,6 +52,7 @@ module.exports = async (req, res) => {
   if (velden['E-mail'].length > 254 || !MAIL.test(velden['E-mail'])) return res.status(422).json({ ok: false, fout: 'Ongeldig e-mailadres' });
   const tekst = clean(d.tekst, 6000);
   const fotos = leesFotos(d.fotos);
+  if (!fotos.length) return res.status(422).json({ ok: false, fout: 'Voeg minimaal één foto of video toe' });
   let analyse = null;
   if (fotos.length) { try { analyse = await analyseer(fotos, velden); } catch (e) { console.error('Foto-analyse mislukt', e.message); } }
   const fotoTekst = fotos.length ? `\n\nFOTO'S: ${fotos.length} beeld(en) meegestuurd${fotos.some((f) => f.bron === 'video') ? ' (deels uit een video)' : ''}, zie de bijlagen in de mail.${analyse ? '\n\n' + analyse : ''}` : '';
