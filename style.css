@@ -70,7 +70,7 @@ footer .wrap{display:flex;justify-content:space-between;align-items:center;flex-
 .chip input:focus-visible+span{outline:2px solid var(--ink);outline-offset:2px}
 .qf input[type=text],.qf input[type=tel],.qf input[type=email],.qf input[type=number],.qf textarea{background:var(--soft);border:2px solid transparent;margin-bottom:0}
 .qf input:focus,.qf textarea:focus{border-color:var(--or)}
-.dim{display:flex;gap:10px;align-items:center;max-width:320px}.dim span{font-weight:700}
+.dim{display:flex;gap:10px;align-items:center;max-width:420px}.dim span{font-weight:700}
 .sum{background:var(--soft);border-radius:10px;padding:16px 18px;margin:8px 0 18px}
 .sum pre{margin:0;white-space:pre-wrap;font:.88rem/1.55 ui-monospace,Menlo,Consolas,monospace;color:var(--muted)}
 .acts{display:flex;gap:12px;flex-wrap:wrap}.btn.ghost{background:transparent;color:var(--ink);border-color:var(--ink)}.btn.ghost:hover{background:var(--soft);box-shadow:none}
