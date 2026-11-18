@@ -50,7 +50,7 @@ var C=document.getElementById("fields"),SM=document.getElementById("sum"),MG=doc
 F.forEach(function(f,i){
 var h='<div class="fg" data-f="'+(f.f||"")+'" data-w="'+(f.w||"")+'" data-k="'+(f.s||f.k)+'" data-t="'+f.t+'"><div class="fl">'+f.k+(["Project","Woonplaats","Naam","Telefoonnummer","E-mailadres","Foto's of video"].indexOf(f.k)>=0?'<span aria-hidden="true" style="color:var(--or)"> *</span>':'')+'</div>';
 if(f.t=="r"||f.t=="m"){f.o.forEach(function(o){h+='<label class="chip"><input type="'+(f.t=="r"?"radio":"checkbox")+'" name="f'+i+'" value="'+o+'"><span>'+o+'</span></label>'})}
-else if(f.t=="d"){h+='<div class="dim"><input type="number" step="0.1" min="0" inputmode="decimal" aria-label="Lengte" placeholder="Lengte"><span>×</span><input type="number" step="0.1" min="0" inputmode="decimal" aria-label="Breedte" placeholder="Breedte"><span>×</span><input type="number" step="0.1" min="0" inputmode="decimal" aria-label="Hoogte" placeholder="Hoogte"></div>'}
+else if(f.t=="d"){h+='<div class="dim"><input type="number" step="any" min="0" inputmode="decimal" aria-label="Lengte" placeholder="Lengte"><span>×</span><input type="number" step="any" min="0" inputmode="decimal" aria-label="Breedte" placeholder="Breedte"><span>×</span><input type="number" step="any" min="0" inputmode="decimal" aria-label="Hoogte" placeholder="Hoogte"></div>'}
 else if(f.t=="n"){h+='<div class="dim"><input type="number" min="0" step="1" inputmode="numeric" aria-label="'+f.k+'" placeholder="Aantal"></div>'}
 else if(f.t=="f"){h+='<p class="ftip" id="ftip">Voeg minimaal één foto of een korte video toe. Daarmee kunnen we vaak al een richtprijs geven zonder eerst langs te komen.</p><label class="fbtn"><input id="fin" type="file" accept="image/*,video/*" multiple><span>Foto\'s of video toevoegen</span></label><div class="fthumbs" id="fthumbs"></div><p class="fnote" id="fnote">Maximaal 6 foto\'s. Van een video nemen we een paar beelden.</p>'}
 else if(f.t=="a"){h+='<textarea rows="3" placeholder="Omschrijf kort wat je wilt laten doen, of geef extra wensen door"></textarea>'}
@@ -60,7 +60,7 @@ function proj(){var c=C.querySelector('[name=f0]:checked');return c?P[c.value]:"
 function val(g){var t=g.dataset.t;
 if(t=="r"){var c=g.querySelector(":checked");return c?c.value:""}
 if(t=="m"){return [].map.call(g.querySelectorAll(":checked"),function(x){return x.value}).join(", ")}
-if(t=="d"){var n=g.querySelectorAll("input"),a=parseFloat(n[0].value),b=parseFloat(n[1].value),c=parseFloat(n[2].value);return a>0&&b>0&&c>0?a+" × "+b+" × "+c+" m (vloer "+(Math.round(a*b*10)/10)+" m², hoogte "+c+" m)":""}
+if(t=="d"){var n=g.querySelectorAll("input"),m=function(i){var x=parseFloat(String(n[i].value).replace(",","."));return x>=10?x/100:x},r=function(x){return Math.round(x*100)/100},a=m(0),b=m(1),c=m(2);return a>0&&b>0&&c>0?r(a)+" × "+r(b)+" × "+r(c)+" m (vloer "+r(a*b)+" m², hoogte "+r(c)+" m)":""}
 if(t=="f"){return FOTO&&FOTO.length?FOTO.length+" beeld(en) bijgevoegd":""}
 return g.querySelector("input,textarea").value.trim()}
 function build(){
